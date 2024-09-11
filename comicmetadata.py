@@ -29,6 +29,7 @@ COLORIST = ['colorist', 'colourist', 'colorer', 'colourer']
 LETTERER = ['letterer']
 COVER_ARTIST = ['cover', 'covers', 'coverartist', 'cover artist']
 EDITOR = ['editor']
+TRANSLATOR = ['translator']
 
 # image file extensions
 IMG_EXTENSIONS = ["jpg", "png", "jpeg", "gif", "bmp", "tiff", "tif", "webp",
@@ -183,6 +184,7 @@ class ComicMetadata:
         role("Letterer", field(prefs['letterer_column']))
         role("CoverArtist", field(prefs['cover_artist_column']))
         role("Editor", field(prefs['editor_column']))
+        role("Translator", field(prefs['translator_column']))
         # others
         update_field("storyArc", field(prefs['storyarc_column']))
         update_field("characters", field(prefs['characters_column']))
@@ -278,6 +280,7 @@ class ComicMetadata:
         update_column(prefs['letterer_column'], role(LETTERER))
         update_column(prefs['cover_artist_column'], role(COVER_ARTIST))
         update_column(prefs['editor_column'], role(EDITOR))
+        update_column(prefs['translator_column'], role(TRANSLATOR))
         # others
         update_column(prefs['storyarc_column'], co.storyArc)
         update_column(prefs['characters_column'], co.characters)

@@ -64,7 +64,8 @@ def get_configuration():
                 ["colorist_column", _L['Colorist:'], None, PERSON_TYPE],
                 ["letterer_column", _L['Letterer:'], None, PERSON_TYPE],
                 ["cover_artist_column", _L['Cover Artist:'], None, PERSON_TYPE],
-                ["editor_column", _L['Editor:'], None, PERSON_TYPE]
+                ["editor_column", _L['Editor:'], None, PERSON_TYPE],
+                ["translator_column", _L['Translator:'], None, PERSON_TYPE]
             ]
         },
         {

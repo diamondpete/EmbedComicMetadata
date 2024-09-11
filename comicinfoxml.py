@@ -40,6 +40,7 @@ class ComicInfoXml:
     letterer_synonyms = ['letterer']
     cover_synonyms = ['cover', 'covers', 'coverartist', 'cover artist']
     editor_synonyms = ['editor']
+    translator_synonyms = ['translator']
 
     def getParseableCredits(self):
         parsable_credits = []
@@ -50,6 +51,7 @@ class ComicInfoXml:
         parsable_credits.extend(self.letterer_synonyms)
         parsable_credits.extend(self.cover_synonyms)
         parsable_credits.extend(self.editor_synonyms)
+        parsable_credits.extend(self.translator_synonyms)
         return parsable_credits
 
     def metadataFromString(self, string):
@@ -121,6 +123,7 @@ class ComicInfoXml:
         credit_letterer_list = list()
         credit_cover_list = list()
         credit_editor_list = list()
+        credit_translator_list = list()
 
         # first, loop thru credits, and build a list for each role that CIX supports
         for credit in metadata.credits:
@@ -145,6 +148,9 @@ class ComicInfoXml:
 
             if credit['role'].lower() in set(self.editor_synonyms):
                 credit_editor_list.append(credit['person'].replace(",", ""))
+
+            if credit['role'].lower() in set(self.translator_synonyms):
+                credit_translator_list.append(credit['person'].replace(",", ""))
 
         # second, convert each list to string, and add to XML struct
         if len(credit_writer_list) > 0:
@@ -174,6 +180,10 @@ class ComicInfoXml:
         if len(credit_editor_list) > 0:
             node = ET.SubElement(root, 'Editor')
             node.text = listToString(credit_editor_list)
+
+        if len(credit_translator_list) > 0:
+            node = ET.SubElement(root, 'Translator')
+            node.text = listToString(credit_translator_list)
 
         # calibre custom columns like tags return tuples, so we need to handle
         # these specially
@@ -274,7 +284,8 @@ class ComicInfoXml:
                     n.tag == 'Inker' or
                     n.tag == 'Colorist' or
                     n.tag == 'Letterer' or
-                    n.tag == 'Editor'):
+                    n.tag == 'Editor' or
+                    n.tag == 'Translator'):
                 if n.text is not None:
                     for name in n.text.split(','):
                         metadata.addCredit(name.strip(), n.tag)
