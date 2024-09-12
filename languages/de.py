@@ -96,7 +96,8 @@ de = {
     'Counted pages in {} comics': 'Seiten in {} comics gezählt',
     'The following comics were not counted: {}': 'Die folgenden Comics wurden nicht gezählt: {}',
     'The following comics were converted to cbz: {}': 'Die folgenden Comics wurden in das cbz Format konvertiert: {}',
-    'Remove metadata in {} comics': 'Remove metadata in {} comics',
+    'Removed metadata': 'Removed metadata',
+    'Removed metadata in {} comics': 'Removed metadata in {} comics',
     'The following comics did not have metadata removed: {}': 'The following comics did not have metadata removed: {}',
 
     # ERRORS

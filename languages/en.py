@@ -96,7 +96,8 @@ en = {
     'Counted pages in {} comics': 'Counted pages in {} comics',
     'The following comics were not counted: {}': 'The following comics were not counted: {}',
     'The following comics were converted to cbz: {}': 'The following comics were converted to cbz: {}',
-    'Remove metadata in {} comics': 'Remove metadata in {} comics',
+    'Removed metadata': 'Removed metadata',
+    'Removed metadata in {} comics': 'Removed metadata in {} comics',
     'The following comics did not have metadata removed: {}': 'The following comics did not have metadata removed: {}',
 
     # ERRORS
