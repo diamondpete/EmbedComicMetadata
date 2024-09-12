@@ -133,9 +133,6 @@ class ComicBookInfo:
         assign('rating', metadata.criticalRating)
         assign('credits', metadata.credits)
         assign('tags', metadata.tags)
-
-        # check for isbn in identifiers
-        if 'isbn' in metadata.identifier:
-            assign('GTIN', metadata.identifier['isbn'])
+        assign('GTIN', metadata.gtin)
 
         return cbi_container

@@ -282,6 +282,7 @@ class GenericMetadata:
         add_attr_string("rights")
         add_attr_string("identifier")
         add_attr_string("lastMark")
+        add_attr_string("gtin")
 
         if self.blackAndWhite:
             add_attr_string("blackAndWhite")
