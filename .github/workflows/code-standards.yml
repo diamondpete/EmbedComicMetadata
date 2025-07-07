@@ -10,7 +10,7 @@ jobs:
   flake8-lint:
     runs-on: ubuntu-latest
     container:
-      image: python:3.11.5-bookworm
+      image: python:3.12-bookworm
     name: Lint
     steps:
       - name: Check out source repository
