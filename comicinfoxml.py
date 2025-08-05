@@ -273,6 +273,7 @@ class ComicInfoXml:
         md.storyArc = xlate('StoryArc')
         md.seriesGroup = xlate('SeriesGroup')
         md.maturityRating = xlate('AgeRating')
+        md.gtin = xlate('GTIN')
 
         tmp = xlate('BlackAndWhite')
         md.blackAndWhite = False
