@@ -64,6 +64,8 @@ class CalibreMetadata(ComicMetadata):
         self._update_field("pageCount", field(prefs['pages_column']))
         self._update_field("webLink", get_link(field(prefs['comicvine_column'])))
         self._update_field("manga", field(prefs['manga_column']))
+        self._update_field("format", field(prefs['format_column']))
+        self._update_field("maturityRating", field(prefs['maturity_column']))
 
         self.isEmpty = False
     
@@ -145,6 +147,8 @@ class CalibreMetadata(ComicMetadata):
         if self.webLink:
             self.update_column(prefs['comicvine_column'], '<a href="{}">Comic Vine</a>'.format(self.webLink))
         self.update_column(prefs['manga_column'], self.manga)
+        self.update_column(prefs['format_column'], self.format)
+        self.update_column(prefs['maturity_column'], self.maturityRating)
 
     def read_from_source(self):
         self.native = self.book.db.get_metadata(self.book.book_id)
