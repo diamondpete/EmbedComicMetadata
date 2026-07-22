@@ -23,6 +23,9 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
+from abc import ABC, abstractmethod
+from calibre_plugins.EmbedComicMetadata.utils import listToString
+
 
 # These page info classes are exactly the same as the CIX scheme, since it's unique
 class PageType:
@@ -39,10 +42,26 @@ class PageType:
     Deleted       = "Deleted"
 
 
-class GenericMetadata:
+class ComicMetadata(ABC):
 
-    def __init__(self):
+    credit_synonyms = {
+        "Writer": ['writer', 'plotter', 'scripter'],
+        "Penciller": ['artist', 'penciller', 'penciler', 'breakdowns'],
+        "Inker": ['inker', 'artist', 'finishes'],
+        "Colorist": ['colorist', 'colourist', 'colorer', 'colourer'],
+        "Letterer": ['letterer'],
+        "CoverArtist": ['cover', 'covers', 'coverartist', 'cover artist'],
+        "Editor": ['editor']
+    }
 
+    def __init__(self, book):
+        # reference to the book class
+        self.book = book
+        # stores the native metadata
+        self.native = None
+
+        # generic metadata fields
+        # -------------------------
         self.isEmpty         = True
         self.tagOrigin       = None
 
@@ -98,11 +117,49 @@ class GenericMetadata:
         # Anansi Project extensions
         self.gtin            = None
 
-    def overlay(self, new_md, overwrite=True):  # changed for the calibre plugin
-        # Overlay a metadata object on this one
-        # that is, when the new object has non-None
-        # values, over-write them to this one
+        # Calibre specific
+        self.imageSize       = None
 
+    @abstractmethod
+    def convert_from_native(self):
+        pass
+    
+    @abstractmethod
+    def convert_to_native(self):
+        pass
+
+    @abstractmethod
+    def read_from_source(self):
+        pass
+
+    @abstractmethod
+    def write_to_source(self):
+        pass
+    
+    @abstractmethod
+    def remove(self):
+        pass
+    
+    def read(self):
+        self.read_from_source()
+        if self.native is not None:
+            self.convert_from_native()
+
+    def write(self):
+        self.convert_to_native()
+        self.write_to_source()
+
+    def overlay(self, new_md, overwrite=True):  # changed for the calibre plugin
+        """
+        Overlay a metadata object on this one
+        that is, when the new object has non-None
+        values, over-write them to this one
+        """
+        if new_md.isEmpty:
+            return
+        else:
+            self.isEmpty = False
+          
         def assign(cur, new):
             if new is not None:
                 if type(new) == str and len(new) == 0:
@@ -110,9 +167,6 @@ class GenericMetadata:
                         setattr(self, cur, None)
                 else:
                     setattr(self, cur, new)
-
-        if not new_md.isEmpty:
-            self.isEmpty = False
 
         assign('series',            new_md.series)
         assign("issue",             new_md.issue)
@@ -155,15 +209,7 @@ class GenericMetadata:
         assign("gtin",              new_md.gtin)
 
         self.overlayCredits(new_md.credits, overwrite)
-        # TODO
-
-        # not sure if the tags and pages should broken down, or treated
-        # as whole lists....
-
-        # For now, go the easy route, where any overlay
-        # value wipes out the whole list
-        if len(new_md.tags) > 0:
-            assign("tags",  new_md.tags)
+        self.overlayTags(new_md.tags)
 
         if len(new_md.pages) > 0:
             assign("pages",           new_md.pages)
@@ -191,6 +237,10 @@ class GenericMetadata:
             # otherwise, add it!
             else:
                 self.addCredit(c['person'], c['role'], primary)
+
+    def overlayTags(self, new_tags):
+        if len(new_tags) > 0:
+            setattr(self, "tags",  new_tags)
 
     def setDefaultPageList(self, count):
         # generate a default page list, with the first page marked as the cover
@@ -221,9 +271,9 @@ class GenericMetadata:
         return coverlist
 
     def addCredit(self, person, role, primary=False):
-
         credit = dict()
         credit['person'] = person
+        role = self.get_role_from_synonyms(role)
         credit['role'] = role
         if primary:
             credit['primary'] = primary
@@ -238,8 +288,14 @@ class GenericMetadata:
                 found = True
                 break
 
-        if not found:
+        if not found and role is not None:
             self.credits.append(credit)
+
+    def get_role_from_synonyms(self, role):
+        for role_name, synonyms in self.credit_synonyms.items():
+            if role.lower() in synonyms:
+                return role_name
+        return None
 
     def __str__(self):
         vals = []
@@ -315,13 +371,3 @@ class GenericMetadata:
             outstr += fmt_str.format(i[0] + ":", i[1])
 
         return outstr
-
-
-def listToString(l):
-    string = ""
-    if l is not None:
-        for item in l:
-            if len(string) > 0:
-                string += ", "
-            string += item
-    return string
