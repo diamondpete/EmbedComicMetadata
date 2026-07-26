@@ -161,7 +161,7 @@ class CalibreMetadata(ComicMetadata):
 
     def overlayTags(self, new_tags):
         if self.tags != [] and not prefs['overwrite_calibre_tags']:
-            new_tags = list(set(self.tags + self.new_tags))
+            new_tags = list(set(self.tags + new_tags))
         if len(new_tags) > 0:
             setattr(self, "tags",  new_tags)
 
