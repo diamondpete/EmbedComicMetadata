@@ -13,6 +13,7 @@ es = {
     'Letterer:': 'Rotulador:',
     'Cover Artist:': 'Artista de portada:',
     'Editor:': 'Editor:',
+    'Translator:': 'Translator:',
     'Story Arc:': 'Arco narrativo:',
     'Characters:': 'Caracteres:',
     'Teams:': 'Equipos:',

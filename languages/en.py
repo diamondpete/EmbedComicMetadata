@@ -13,6 +13,7 @@ en = {
     'Letterer:': 'Letterer:',
     'Cover Artist:': 'Cover Artist:',
     'Editor:': 'Editor:',
+    'Translator:': 'Translator:',
     'Story Arc:': 'Story Arc:',
     'Characters:': 'Characters:',
     'Teams:': 'Teams:',

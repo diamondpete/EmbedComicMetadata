@@ -53,6 +53,7 @@ class CalibreMetadata(ComicMetadata):
         self.addCredits("Letterer", field(prefs['letterer_column']))
         self.addCredits("CoverArtist", field(prefs['cover_artist_column']))
         self.addCredits("Editor", field(prefs['editor_column']))
+        self.addCredits("Translator", field(prefs['translator_column']))
         # others
         self._update_field("storyArc", field(prefs['storyarc_column']))
         self._update_field("characters", field(prefs['characters_column']))
@@ -68,7 +69,7 @@ class CalibreMetadata(ComicMetadata):
         self._update_field("maturityRating", field(prefs['maturity_column']))
 
         self.isEmpty = False
-    
+
     def convert_to_native(self):
         # start with a fresh calibre metadata
         self.native = MetaInformation(None, None)
@@ -126,7 +127,7 @@ class CalibreMetadata(ComicMetadata):
         # gtin
         if self.gtin:
             self.native.set_identifiers({"gtin": self.gtin})
-			
+
         # artists
         self.update_column(prefs['penciller_column'], self.get_role("Penciller"))
         self.update_column(prefs['inker_column'], self.get_role("Inker"))
@@ -134,6 +135,7 @@ class CalibreMetadata(ComicMetadata):
         self.update_column(prefs['letterer_column'], self.get_role("Letterer"))
         self.update_column(prefs['cover_artist_column'], self.get_role("CoverArtist"))
         self.update_column(prefs['editor_column'], self.get_role("Editor"))
+        self.update_column(prefs['translator_column'], self.get_role("Translator"))
         # others
         self.update_column(prefs['storyarc_column'], self.storyArc)
         self.update_column(prefs['characters_column'], self.characters)
@@ -174,7 +176,7 @@ class CalibreMetadata(ComicMetadata):
             col = custom_cols[col_name]
             col['#value#'] = value
             self.native.set_user_metadata(col_name, col)
-    
+
     def addCredits(self, role, persons):
         '''
         Sets all persons with the given role to credits
@@ -192,7 +194,7 @@ class CalibreMetadata(ComicMetadata):
                     if credit['role'] == role]
         return [credit['person'] for credit in self.credits
                 if credit['role'] == role]
-                
+
     def _update_field(self, field, source):
         '''
         Sets the attribute field of target to the value of source

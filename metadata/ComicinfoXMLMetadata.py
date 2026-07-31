@@ -47,7 +47,7 @@ class ComicinfoXMLMetadata(ComicMetadata):
             zf.close()
             self._zipinfo_read = True
         return self._zipinfo
-    
+
     @zipinfo.setter
     def zipinfo(self, val):
         self._zipinfo = val
@@ -200,7 +200,8 @@ class ComicinfoXMLMetadata(ComicMetadata):
                     n.tag == 'Colorist' or
                     n.tag == 'Letterer' or
                     n.tag == 'Editor' or
-                    n.tag == 'CoverArtist'):
+                    n.tag == 'CoverArtist' or
+                    n.tag == 'Translator'):
                 if n.text is not None:
                     for name in n.text.split(','):
                         self.addCredit(name.strip(), n.tag)
@@ -257,7 +258,7 @@ class ComicinfoXMLMetadata(ComicMetadata):
                 if name.lower() == "comicinfo.xml":
                     self.zipinfo = name
                     return zf.read(name)
-    
+
     def read_from_cbr(self):
         with open(self.book.file, 'rb') as stream:
             # get the cix metadata

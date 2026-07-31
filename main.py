@@ -155,7 +155,7 @@ def iterate_over_books(ia, func, title, ptext, notptext,
             processed.append(book.info)
         else:
             not_processed.append(book.info)
-        
+
         book.cleanup()
 
     # show a completion message

@@ -127,10 +127,10 @@ class ComicbookinfoMetadata(ComicMetadata):
     def read_from_cbz(self):
         with ZipFile(self.book.file) as zf:
             return zf.comment
-    
+
     def read_from_cbr(self):
         return comment(self.book.file)
-    
+
     def get_string_from_native(self):
         cbi_container = {'appID': 'ComicTagger/',
                          'lastModified': str(datetime.now()),

@@ -43,5 +43,6 @@
   "storyarc_column": "#story_arc",
   "swap_names": false,
   "teams_column": "#genre",
+  "translator_column": "#translator",
   "volume_column": "#volume"
 }

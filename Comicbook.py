@@ -69,7 +69,7 @@ class Comicbook:
         if not self._file and self.is_zippy:
             self._file = self.db.format(self.book_id, self.format, as_path=True)
         return self._file
-    
+
     def cleanup(self):
         if self.file_dirty:
             self.db.add_format(self.book_id, self.format, self._file)
@@ -89,7 +89,7 @@ class Comicbook:
                 self.db.remove_formats({self.book_id: {"zip"}})
             return True
         return False
-    
+
     def convert_cbr_to_cbz(self):
         '''
         Converts a rar or cbr-comic to a cbz-comic
